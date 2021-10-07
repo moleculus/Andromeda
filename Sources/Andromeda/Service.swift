@@ -1,22 +1,18 @@
 import Foundation
 import Alamofire
-import Logging
-import Pulse
 
 public struct Service {
     
     // MARK: - Properties.
     
     private let configuration: Configurator
-    private let networkLogger: NetworkLogger
     private let session: Session
     
     // MARK: - Initialization.
     
     public init(configuration: Configurator) {
         self.configuration = configuration
-        self.networkLogger = NetworkLogger(store: configuration.loggerStore)
-        self.session = Alamofire.Session(eventMonitors: [ NetworkLoggerEventMonitor(logger: networkLogger) ])
+        self.session = Alamofire.Session(eventMonitors: [])
     }
     
     // MARK: - Public Methods.
@@ -36,7 +32,7 @@ public struct Service {
                 completion?(.success(statusCode: dataResponse.response!.statusCode, serializedResponse: nil))
                 return
             }
-                                  
+            
             let result = handle(dataResponse: dataResponse, for: request)
             
             if case .failure (let error) = result {
@@ -70,7 +66,7 @@ public struct Service {
             if case .failure (let error) = result {
                 configuration.errorHandler.handleError(error, in: request)
             }
-                    
+            
             completion?(result)
         }
         
@@ -85,11 +81,10 @@ public struct Service {
     
     private func handle<R: Request>(dataResponse: AFDataResponse<Data>, for request: R) -> Result<R.SuccessResponse, R.FailureResponse> {
         guard let data = dataResponse.data else {
-            configuration.logger.warning(Logger.Message(stringLiteral: "Unexpected empty response" + "\n" + "\(request.method)".uppercased() + " \(configuration.baseURL + request.path)"))
             let error = Error<R.FailureResponse>(httpCode: dataResponse.response?.statusCode, data: dataResponse.data)
             return .failure(error)
         }
-
+        
         do {
             let response = try configuration.decoder.decode(R.SuccessResponse.self, from: data)
             return .success(statusCode: dataResponse.response!.statusCode, serializedResponse: response)
@@ -111,11 +106,7 @@ public struct Service {
                     return "Unknown decoding error"
                 }
             }
-
-            configuration.logger.critical(
-                Logger.Message(stringLiteral: message + "\n" + "\(request.method)".uppercased() + " \(configuration.baseURL + request.path)")
-            )
-
+            
             let error = Error<R.FailureResponse>(httpCode: dataResponse.response?.statusCode, data: dataResponse.data)
             return .failure(error)
         }
@@ -149,10 +140,6 @@ public struct Service {
                 }
             }
             
-            configuration.logger.critical(
-                Logger.Message(stringLiteral: message + "\n" + "\(request.method)".uppercased() + " \(configuration.baseURL + request.path)")
-            )
-                        
             let error = Error<UR.FailureResponse>(httpCode: dataResponse.response?.statusCode, data: dataResponse.data)
             return .failure(error)
         }
@@ -160,7 +147,7 @@ public struct Service {
     
     private func multipartFormData<UR: UploadRequest>(for uploadRequest: UR) -> MultipartFormData {
         let multipartFormData = MultipartFormData()
-                
+        
         for multipartDataItem in uploadRequest.parameters {
             guard let multipartDataItem = multipartDataItem else {
                 continue

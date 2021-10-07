@@ -9,11 +9,10 @@ let package = Package(
     products: [ .library(name: "Andromeda", targets: ["Andromeda"]) ],
     dependencies: [
         .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", branch: "master"),
-        .package(name: "Pulse", url: "https://github.com/kean/Pulse", branch: "master"),
         .package(name: "SDWebImage", url: "https://github.com/SDWebImage/SDWebImage", branch: "master")
     ],
     targets: [
-        .target(name: "Andromeda", dependencies: [ "Alamofire", "Pulse", "SDWebImage" ]),
+        .target(name: "Andromeda", dependencies: [ "Alamofire", "SDWebImage" ]),
         .testTarget( name: "AndromedaTests", dependencies: ["Andromeda"])
     ]
 )
