@@ -5,24 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "Andromeda",
-    products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "Andromeda",
-            targets: ["Andromeda"]),
-    ],
+    platforms: [ .iOS(.v14) ],
+    products: [ .library(name: "Andromeda", targets: ["Andromeda"]) ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", branch: "master"),
+        .package(name: "Pulse", url: "https://github.com/kean/Pulse", branch: "master"),
+        .package(name: "SDWebImage", url: "https://github.com/SDWebImage/SDWebImage", branch: "master")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
-            name: "Andromeda",
-            dependencies: []),
-        .testTarget(
-            name: "AndromedaTests",
-            dependencies: ["Andromeda"]),
+        .target(name: "Andromeda", dependencies: [ "Alamofire", "Pulse", "SDWebImage" ]),
+        .testTarget( name: "AndromedaTests", dependencies: ["Andromeda"])
     ]
 )
