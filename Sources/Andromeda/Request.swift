@@ -7,7 +7,6 @@ public protocol Request {
     
     var path: String { get }
     var method: HTTP.Method { get }
-    var headers: [String: String] { get }
     var parameters: [String: Any?] { get }
     var emptyResponseCodes: Set<Int> { get }
 }

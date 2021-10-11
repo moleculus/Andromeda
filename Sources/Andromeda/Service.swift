@@ -24,7 +24,7 @@ public struct Service {
             method: HTTPMethod(method: request.method),
             parameters: request.nonNilParameters,
             encoding: request.encoding,
-            headers: HTTPHeaders(request.headers)
+            headers: HTTPHeaders(configuration.headers)
         )
         
         dataRequest.responseData(emptyResponseCodes: request.emptyResponseCodes) { dataResponse in
