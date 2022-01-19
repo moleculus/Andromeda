@@ -5,7 +5,8 @@ public protocol Configurator {
     var errorHandler: ErrorHandler { get }
     var decoder: JSONDecoder { get }
     var headers: [String: String] { get }
-    var showsLogs: Bool { get }
+    var showsDecoderLogs: Bool { get }
+    var showsResponseLogs: Bool { get }
 }
 
 

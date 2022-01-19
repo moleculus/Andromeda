@@ -35,6 +35,10 @@ public struct Service {
             
             let result = handle(dataResponse: dataResponse, for: request)
             
+            if showsResponseLogs {
+                print(dataResponse.response)
+            }
+            
             if case .failure (let error) = result {
                 configuration.errorHandler.handleError(error, in: request)
             }
@@ -90,10 +94,6 @@ public struct Service {
             return .success(statusCode: dataResponse.response!.statusCode, serializedResponse: response)
         }
         catch (let error) {
-            if configuration.showsLogs {
-                print(error.localizedDescription)
-            }
-            
             var message: String {
                 switch error as? DecodingError {
                 case .typeMismatch(_, let context):
@@ -109,6 +109,11 @@ public struct Service {
                 @unknown default:
                     return "Unknown decoding error"
                 }
+            }
+            
+            if configuration.showsDecoderLogs {
+                print(error.localizedDescription)
+                print(message)
             }
             
             let error = Error<R.FailureResponse>(httpCode: dataResponse.response?.statusCode, data: dataResponse.data)
