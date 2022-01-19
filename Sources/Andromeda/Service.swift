@@ -90,6 +90,10 @@ public struct Service {
             return .success(statusCode: dataResponse.response!.statusCode, serializedResponse: response)
         }
         catch (let error) {
+            if configuration.showsLogs {
+                print(error.localizedDescription)
+            }
+            
             var message: String {
                 switch error as? DecodingError {
                 case .typeMismatch(_, let context):
