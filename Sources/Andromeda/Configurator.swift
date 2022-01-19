@@ -6,7 +6,6 @@ public protocol Configurator {
     var decoder: JSONDecoder { get }
     var headers: [String: String] { get }
     var showsDecoderLogs: Bool { get }
-    var showsResponseLogs: Bool { get }
 }
 
 

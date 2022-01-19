@@ -35,10 +35,6 @@ public struct Service {
             
             let result = handle(dataResponse: dataResponse, for: request)
             
-            if configuration.showsResponseLogs {
-                print(dataResponse.response)
-            }
-            
             if case .failure (let error) = result {
                 configuration.errorHandler.handleError(error, in: request)
             }
