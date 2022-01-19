@@ -35,7 +35,7 @@ public struct Service {
             
             let result = handle(dataResponse: dataResponse, for: request)
             
-            if showsResponseLogs {
+            if configuration.showsResponseLogs {
                 print(dataResponse.response)
             }
             
