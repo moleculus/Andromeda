@@ -29,7 +29,7 @@ public struct Service {
         
         dataRequest.responseData(emptyResponseCodes: request.emptyResponseCodes) { dataResponse in
             if case .success (let data) = dataResponse.result, data.isEmpty {
-                completion?(.success(statusCode: dataResponse.response!.statusCode, serializedResponse: nil))
+                completion?(.success(statusCode: dataResponse.response!.statusCode))
                 return
             }
             
@@ -87,7 +87,7 @@ public struct Service {
         
         do {
             let response = try configuration.decoder.decode(R.SuccessResponse.self, from: data)
-            return .success(statusCode: dataResponse.response!.statusCode, serializedResponse: response)
+            return .data(serializedResponse: response)
         }
         catch (let error) {
             var message: String {

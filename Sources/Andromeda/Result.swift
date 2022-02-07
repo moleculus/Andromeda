@@ -1,7 +1,8 @@
 import Foundation
 
 public enum Result<SuccessResponse: Decodable, FailureResponse: Decodable> {
-    case success (statusCode: Int, serializedResponse: SuccessResponse?)
+    case data (serializedResponse: SuccessResponse?)
+    case success (statusCode: Int)
     case failure (Error<FailureResponse>)
 }
 
