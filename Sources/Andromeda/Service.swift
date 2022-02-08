@@ -42,6 +42,7 @@ public struct Service {
             completion?(result)
         }
         
+        Logger().log(request: request, dataRequest: dataRequest)
         return dataRequest
     }
     
