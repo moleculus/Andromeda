@@ -42,7 +42,10 @@ public struct Service {
             completion?(result)
         }
         
-        Logger().log(request: request, dataRequest: dataRequest)
+        if configuration.showsRequestLogs {
+            Logger().log(request: request, dataRequest: dataRequest)
+        }
+        
         return dataRequest
     }
     
