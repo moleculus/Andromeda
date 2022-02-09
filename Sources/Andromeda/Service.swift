@@ -74,6 +74,10 @@ public struct Service {
             completion?(result)
         }
         
+        if configuration.showsRequestLogs {
+            Logger().log(request: request, uploadRequest: uploadRequest)
+        }
+        
         return uploadRequest
     }
     
