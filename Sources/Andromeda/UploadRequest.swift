@@ -7,7 +7,6 @@ public protocol UploadRequest {
     
     var path: String { get }
     var method: HTTP.Method { get }
-    var headers: [String: String] { get }
     var parameters: [MultipartDataItem?] { get }
 }
 

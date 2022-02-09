@@ -55,7 +55,7 @@ public struct Service {
             multipartFormData: multipartFormData(for: request),
             to: configuration.baseURL + request.path,
             method: HTTPMethod(method: request.method),
-            headers: HTTPHeaders(request.headers),
+            headers: HTTPHeaders(configuration.headers),
             interceptor: nil,
             fileManager: .default
         )
