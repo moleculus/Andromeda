@@ -61,7 +61,7 @@ public struct Service {
         )
         
         uploadRequest.uploadProgress { (progress) in
-            completion?(.progres(progress.fractionCompleted))
+            completion?(.progress(progress.fractionCompleted))
         }
         
         uploadRequest.responseData {
