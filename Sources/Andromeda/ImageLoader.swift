@@ -1,11 +1,11 @@
 import SDWebImage
 
 public class ImageLoader {
-
+    
     // MARK: - Properties.
-
+    
     private var operation: SDWebImageOperation?
-
+    
     // MARK: - Initialization.
     
     public init() {}
@@ -20,13 +20,20 @@ public class ImageLoader {
         
         operation = SDWebImageManager.shared.loadImage(with: url, options: .retryFailed, progress: { receivedSize, expectedSize, _ in
             let progress = Double(receivedSize) / Double(expectedSize)
-            completion(.progress(progress))
+            DispatchQueue.main.async {
+                completion(.progress(progress))
+            }
+            
         }, completed: { image, _, _, _, _, _ in
             if let image = image {
-                completion(.success(image))
+                DispatchQueue.main.async {
+                    completion(.success(image))
+                }
             }
             else {
-                completion(.failure)
+                DispatchQueue.main.async {
+                    completion(.failure)
+                }
             }
         })
     }
@@ -42,5 +49,5 @@ public class ImageLoader {
     public func cancel() {
         operation?.cancel()
     }
-
+    
 }
