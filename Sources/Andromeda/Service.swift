@@ -101,7 +101,7 @@ public struct Service {
             var message: String {
                 switch error as? DecodingError {
                 case .typeMismatch(_, let context):
-                    return context.debugDescription
+                    return context.codingPath
                 case .valueNotFound(_, let context):
                     return context.debugDescription
                 case .keyNotFound(let codingKey, _):
