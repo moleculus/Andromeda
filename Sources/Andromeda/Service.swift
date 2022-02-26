@@ -116,6 +116,7 @@ public struct Service {
             }
             
             if configuration.showsDecoderLogs {
+                print(request.method, request.path)
                 print(error.localizedDescription)
                 print(message)
             }
