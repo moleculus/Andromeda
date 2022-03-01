@@ -5,6 +5,7 @@ public enum Error<Response: Decodable> {
     case tokenIsInvalid
     case internalServerError
     case serverIsTemporarilyUnavailable
+    case updateRequired
     case custom (Response)
     
     public init(httpCode: Int?, data: Data?) {
@@ -16,6 +17,8 @@ public enum Error<Response: Decodable> {
         switch httpCode {
         case 401:
             self = .tokenIsInvalid
+        case 426:
+            self = .updateRequired
         case 500:
             self = .internalServerError
         case 502:
